@@ -1,0 +1,6 @@
+GET https://api.github.com/repos/GeeksHubsAcademy/tareas-dom-manipulation/commits
+
+###
+
+
+GET https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=323112ea2281b9eb70f319f4df422c6b

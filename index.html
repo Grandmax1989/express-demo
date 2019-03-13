@@ -1,12 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>express demo</title>
-</head>
-<body>
-    <h1>HOLA MUNDO</h1>
-</body>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible"
+              content="ie=edge">
+        <title>express demo</title>
+    </head>
+
+    <body>
+        <header>
+            <h3>create users</h3>
+            <input type="text"
+                   placeholder="name">
+        </header>
+        <section>
+            <button>fetch users</button>
+        </section>
+        <section>
+            <button class="getFilms">fetch films</button>
+        </section>
+        <section class="films">
+
+
+        </section>
+
+        <script>
+            document.querySelector('header input').addEventListener('keyup', ev => {
+
+                if (ev.keyCode === 13) {
+                    let name = ev.target.value;
+                    let body = {
+                        name: name
+                    }
+
+                    fetch('http://localhost:3000/users', {
+                            method: 'POST',
+                            body: JSON.stringify(body),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(console.log)
+
+                }
+            })
+
+            document.querySelector('section button').addEventListener('click', ev => {
+
+                fetch('http://localhost:3000/users')
+                    .then(response => response.json())
+
+                    .then(parsedResponse => console.log(parsedResponse))
+
+                    .catch(error => console.log(error))
+            })
+
+            document.querySelector('.getFilms').addEventListener('click', ev => {
+
+                fetch('https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=323112ea2281b9eb70f319f4df422c6b')
+                    .then(response => response.json())
+                    .then(
+                        data => {
+
+                            let results = data.results;
+
+                            results.forEach(film => {
+                                let filmNode = document.createElement('div')
+
+                                filmNode.innerHTML =
+                                    `<h2>${film.original_title}</h2>
+                                    <p>${film.overview}</p>`
+
+
+                                document.querySelector('.films').append(filmNode);
+                            })
+                        })
+            })
+
+        </script>
+
+
+    </body>
+
 </html>
